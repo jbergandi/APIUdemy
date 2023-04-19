@@ -1,0 +1,32 @@
+plugins{
+    id 'java'
+}
+
+group 'JLB testing'
+version '1.0.SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/io.rest-assured/rest-assured
+testImplementation group: 'io.rest-assured', name: 'rest-assured', version: '5.3.0'
+
+// https://mvnrepository.com/artifact/io.cucumber/cucumber-java
+implementation group: 'io.cucumber', name: 'cucumber-java', version: '7.11.2'
+// https://mvnrepository.com/artifact/io.cucumber/cucumber-junit
+testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: '7.11.2'
+
+
+//para generar los reportes, tiene que estar con la misma version de cucumber
+// https://mvnrepository.com/artifact/tech.grasshopper/extentreports-cucumber7-adapter
+implementation group: 'tech.grasshopper', name: 'extentreports-cucumber7-adapter', version: '1.12.0'
+
+// https://mvnrepository.com/artifact/org.jason-lang/jason
+implementation group: 'org.jason-lang', name: 'jason', version: '2.5.2'
+
+
+}
