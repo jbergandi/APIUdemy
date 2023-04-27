@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Ejemplo de Request para Udemy" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-04-25T14:26:57" hostname="PRACTIAARNB2111" time="2.139">
+  <properties/>
+  <testcase name="Prueba GET al endpoint de GitHub." classname="Ejemplo de Request para Udemy" time="2.139"/>
+  <system-out><![CDATA[Inicio de Test
+Fin de Test200
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

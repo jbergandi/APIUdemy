@@ -1,0 +1,69 @@
+[
+  {
+    "line": 1,
+    "elements": [
+      {
+        "start_timestamp": "2023-04-27T11:48:23.182Z",
+        "line": 14,
+        "name": "Validar que un elemento esta en la respuesta",
+        "description": "",
+        "id": "ejemplo-de-request-para-udemy;validar-que-un-elemento-esta-en-la-respuesta",
+        "type": "scenario",
+        "keyword": "Scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 633142000,
+              "status": "passed"
+            },
+            "line": 15,
+            "name": "el usuario que envia un GET request a https://jsonplaceholder.typicode.com URI",
+            "match": {
+              "arguments": [
+                {
+                  "val": "https://jsonplaceholder.typicode.com",
+                  "offset": 38
+                }
+              ],
+              "location": "Steps.APISteps.sendGETRequest(java.lang.String)"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 2201023500,
+              "status": "passed"
+            },
+            "line": 16,
+            "name": "el usuario valida que el nombre Bret se encuentra en la respuesta del endPoint: /users",
+            "match": {
+              "arguments": [
+                {
+                  "val": "Bret",
+                  "offset": 32
+                },
+                {
+                  "val": "/users",
+                  "offset": 80
+                }
+              ],
+              "location": "Steps.APISteps.validaCantItems(java.lang.String,java.lang.String)"
+            },
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@API"
+          }
+        ]
+      }
+    ],
+    "name": "Ejemplo de Request para Udemy",
+    "description": "",
+    "id": "ejemplo-de-request-para-udemy",
+    "keyword": "Feature",
+    "uri": "file:src/test/resources/features/APITest.feature",
+    "tags": []
+  }
+]

@@ -1,0 +1,103 @@
+package codigosFuente;
+import java.util.Base64;
+import org.apache.http.entity.ContentType;
+import org.jsoup.Connection.Base;
+import org.jsoup.helper.HttpConnection.Response;
+import com.aventstack.extentreports.gherkin.model.Given;
+import io.restassured.*;
+import static io.restassured.RestAssured.given;
+
+public class Auth {
+    //hay 4 formas de autenticacion:
+
+    //Autenticacion Basica
+    public void basicAuth(String userName, String password){
+        given()
+        .auth().basic(userName, password)
+        .when()
+        .get("Auth_Endpoint")
+        .then
+        .assertThat().statusCode(200);
+    }
+
+    //Autenticacion Por Formulario
+    public void formAuth(String userName, String password){
+        given()
+        .auth().form(userName, password)
+        .when()
+        .get("Auth_Endpoint")
+        .then
+        .assertThat().statusCode(200);
+    }
+
+    //Autenticacion Por OAuth. Tiene varios pasos
+
+    public static String clienteId = "";
+    public static String redirectUri = "";
+    public static String scope = "";
+    public static String userName = "";
+    public static String password = "";
+    public static String grantType = "";
+
+    //"enmascaro" el user y password para mandarlo al request
+    public static String encode(String str1, String str2){
+        String encodeArguments = str1 + ":" + str2;
+        return new String (Base64.getEncoder().encode(encodeArguments).getBytes());
+    }
+
+    //1. Obtener codigo del servicio original
+    public static Response getCode(){
+        String authorization = encode(userName, password);
+
+        return given()
+                .header("authorization", "Basic" + authorization)
+                .contentType(ContentType.URLENC)
+                .formParam("response type", "code")
+                .queryParam("client_id", clienteId)
+                .queryParam("redirect_uri", redirectUri)
+                .queryParam("scope", scope)
+                .post("/outh/authorize")
+                .then()
+                .statusCode(200)
+                .extract()
+                .response();
+    }
+
+    //extraer el codigo del Response
+    public static String parseForOAuthCode(Response response){
+        return response.jsonPath().getString("code");
+    }
+
+    //2. Obtener el token, intercambiando el codigo que obtuvimos en el paso 1
+    public static Response getToken(String authCode){
+        String authorization = encode(userName, password);
+
+        return given()
+                .header("autorization", "Basic" + authorization)
+                .contentType(ContentType.URLENC)
+                .formParam("response_type", authCode)
+                .queryParam("redirect_uri", redirectUri)
+                .queryParam("grant_type", grantType)
+                .post("/outh/token")
+                .then()
+                .statusCode(200)
+                .extract()
+                .response();
+    }
+
+    //extraer el token del response
+    public static String parseForToken(Response response){
+        return response.jsonPath().getString("acces_token");
+    }
+
+    //3. Acceder al recurso protegido, con nuestro token
+    public static void getFinalService(){
+        given().auth().
+        .oauth2(accessToken)  //opcional: .header("Authorization", "Bearer " + accessToken)      
+        .when()
+        .get("/service")
+        .then()
+        .statusCode(200);
+    }
+
+}
